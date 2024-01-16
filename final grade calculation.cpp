@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 using namespace std;
 
 
@@ -61,11 +62,20 @@ bool del_node(Node *head, const double score, const double point) {
     return false;
 }
 
+void input(double &score, double &point) {
+
+    while(!(cin >> score >> point)) {
+        cerr << "-> invalid input format" << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+}
+
 bool add(double &course, double &score_sum, double &point_sum, struct Node *head) {
 
-    int score, point;
+    double score, point;
 
-    cin >> score >> point;
+    input(score, point);
     if(score == -1 && point == -1) return false;
 
     add_node(head, score, point);
@@ -76,6 +86,8 @@ bool add(double &course, double &score_sum, double &point_sum, struct Node *head
 
     return true;
 }
+
+
 
 signed main() {
 
@@ -110,13 +122,13 @@ signed main() {
 
         if(cmd == "end") break;
 
-        if(cmd == "add") {
+        if(cmd == "add") { // feature adding
 
             add(course, score_sum, point_sum, head);
 
-        } else if(cmd == "del") {
+        } else if(cmd == "del") { // feature deleting
 
-            cin >> score >> point;
+            input(score, point);
 
             if( del_node(head, score, point) ) {
 
@@ -129,10 +141,9 @@ signed main() {
             } else {
 
                 cout << "-> data not existed." << endl;
-
             }
 
-        } else if(cmd == "status") {
+        } else if(cmd == "status") { // feature seeing grade result
 
             cout << "===========================================================\n";
             cout << "course amount: " << course << endl;
@@ -140,20 +151,18 @@ signed main() {
             cout << "avg: " << score_sum / point_sum << endl;
             cout << "===========================================================\n";
 
-        } else if(cmd == "add.") {
+        } else if(cmd == "add.") { // feature adding continuosly
 
             cout << "Keep entering your score and point until enter [-1 -1]: " << endl;
             while(add(course, score_sum, point_sum, head));
             cout << "Stop keeping entering." << endl;
 
-        } else if(cmd == "look") {
+        } else if(cmd == "look") { // feature traveling
 
             travel_node(head);
-
         } else {
 
             cout << "cmd not existed..." << endl;
-
         }
 
         cout << "Enter cmd: ";
