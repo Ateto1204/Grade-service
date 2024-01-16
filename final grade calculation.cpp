@@ -1,12 +1,53 @@
 #include <iostream>
 using namespace std;
 
-bool add(double& course, double& score_sum, double& point_sum) {
+
+struct Node {
+
+    double score, point;
+    struct Node *next;
+
+};
+
+void travel_node(Node *head) {
+
+    struct Node *ptr = head->next;
+
+    cout << "===========================================================\n";
+    while(ptr) {
+
+        cout << ptr->score << ' ' << ptr->point << endl;
+        ptr = ptr->next;
+
+    }
+    cout << "===========================================================\n";
+}
+
+void add_node(Node *head, const double score, const double point) {
+
+    struct Node *cur = new Node;
+    cur->score = score;
+    cur->point = point;
+    cur->next = NULL;
+
+    if(head->next) {
+
+        struct Node *pre = head->next;
+        cur->next = pre;
+
+    }
+
+    head->next = cur;
+}
+
+bool add(double &course, double &score_sum, double &point_sum, struct Node *head) {
 
     int score, point;
 
     cin >> score >> point;
     if(score == -1 && point == -1) return false;
+
+    add_node(head, score, point);
 
     course += 1;
     score_sum += score * point;
@@ -16,6 +57,11 @@ bool add(double& course, double& score_sum, double& point_sum) {
 }
 
 signed main() {
+
+    struct Node *head = new Node;
+    head->score = -1;
+    head->point = -1;
+    head->next = NULL;
 
     double score_sum, score, point_sum, point, course;
     score_sum = point_sum = course = 0;
@@ -44,7 +90,8 @@ signed main() {
         if(cmd == "end") break;
 
         if(cmd == "add") {
-            add(course, score_sum, point_sum);
+
+            add(course, score_sum, point_sum, head);
 
         } else if(cmd == "del") {
 
@@ -64,8 +111,12 @@ signed main() {
         } else if(cmd == "add.") {
 
             cout << "Keep entering your score and point until enter [-1 -1]: " << endl;
-            while(add(course, score_sum, point_sum));
+            while(add(course, score_sum, point_sum, head));
             cout << "Stop keeping entering." << endl;
+
+        } else if(cmd == "look") {
+
+            travel_node(head);
 
         } else {
 
