@@ -40,6 +40,27 @@ void add_node(Node *head, const double score, const double point) {
     head->next = cur;
 }
 
+bool del_node(Node *head, const double score, const double point) {
+
+    struct Node *ptr, *pre;
+    ptr = head->next;
+    pre = head;
+
+    while(ptr) {
+
+        if(ptr->score == score && ptr->point == point) {
+
+            pre->next = ptr->next;
+            return true;
+        }
+
+        pre = ptr;
+        ptr = ptr->next;
+    }
+
+    return false;
+}
+
 bool add(double &course, double &score_sum, double &point_sum, struct Node *head) {
 
     int score, point;
@@ -96,9 +117,20 @@ signed main() {
         } else if(cmd == "del") {
 
             cin >> score >> point;
-            course -= 1;
-            score_sum -= score * point;
-            point_sum -= point;
+
+            if( del_node(head, score, point) ) {
+
+                cout << "-> delete success." << endl;
+
+                course -= 1;
+                score_sum -= score * point;
+                point_sum -= point;
+
+            } else {
+
+                cout << "-> data not existed." << endl;
+
+            }
 
         } else if(cmd == "status") {
 
@@ -128,6 +160,8 @@ signed main() {
     }
 
     cout << "program finished." << endl;
+
+    system("pause");
 
     return 0;
 }
