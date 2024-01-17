@@ -1,5 +1,8 @@
 # Project log
 
+#### 2024.01.17
+- Chore of clear code
+
 #### 2024.01.16
 - Holding input exceptions
 - Designed a data structure storing data
