@@ -108,16 +108,24 @@ signed main() {
     cout << endl;
 
     cout << "===========================================================\n";
+
+    cout << endl;
     cout << "Commend explanation: " << endl;
+
+    cout << endl;
     cout << "[add (score) (point)] to add new element." << endl;
     cout << "[add.] to keep enter [(score) (point)] until enter [-1 -1]." << endl;
     cout << "[del (score) (point)] to delete existed element." << endl;
-    cout << "[status] to look for calculation status." << endl;
+    cout << "[status] to check current grade." << endl;
+    cout << "[look] to check grade list." << endl;
     cout << "[end] to stop program." << endl;
+
+    cout << endl;
+    cout << "p.s. score->分數; point->學分數" << endl;
     cout << "===========================================================\n";
     cout << endl;
 
-    cout << "Enter cmd: ";
+    cout << "<Enter cmd> ";
     while(cin >> cmd) {
 
         if(cmd == "end") break;
@@ -165,7 +173,7 @@ signed main() {
             cout << "cmd not existed..." << endl;
         }
 
-        cout << "Enter cmd: ";
+        cout << "<Enter cmd> ";
     }
 
     cout << "program finished." << endl;
