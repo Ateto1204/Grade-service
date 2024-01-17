@@ -10,7 +10,7 @@ struct Node {
 
 };
 
-void travel_node(Node *head) {
+void travel_node(struct Node *head) {
 
     struct Node *ptr = head->next;
 
@@ -24,7 +24,7 @@ void travel_node(Node *head) {
     cout << "===========================================================\n";
 }
 
-void add_node(Node *head, const double score, const double point) {
+void add_node(struct Node *head, const double score, const double point) {
 
     struct Node *cur = new Node;
     cur->score = score;
@@ -41,7 +41,7 @@ void add_node(Node *head, const double score, const double point) {
     head->next = cur;
 }
 
-bool del_node(Node *head, const double score, const double point) {
+bool del_node(struct Node *head, const double score, const double point) {
 
     struct Node *ptr, *pre;
     ptr = head->next;
@@ -71,7 +71,7 @@ void input(double &score, double &point) {
     }
 }
 
-bool add(double &course, double &score_sum, double &point_sum, struct Node *head) {
+bool add(int &course, double &score_sum, double &point_sum, struct Node *head) {
 
     double score, point;
 
@@ -87,18 +87,25 @@ bool add(double &course, double &score_sum, double &point_sum, struct Node *head
     return true;
 }
 
+void program_init(struct Node *head, double &score_sum, double &point_sum, int &course) {
+
+    head->score = -1;
+    head->point = -1;
+    head->next = NULL;
+
+    score_sum = point_sum = course = 0;
+
+}
 
 
 signed main() {
 
     struct Node *head = new Node;
-    head->score = -1;
-    head->point = -1;
-    head->next = NULL;
-
-    double score_sum, score, point_sum, point, course;
-    score_sum = point_sum = course = 0;
+    double score_sum, score, point_sum, point;
+    int course;
     string cmd;
+
+    program_init(head, score_sum, point_sum, course);
 
     cout << "~Final Grade Cal~" << endl;
     cout << endl;
