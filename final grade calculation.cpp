@@ -88,9 +88,17 @@ void input(double &score, double &point) {
 bool add(int &course, double &score_sum, double &point_sum, struct Node *head) {
 
     double score, point;
+    bool first = true;
 
-    input(score, point);
-    if(score == -1 && point == -1) return false;
+    do {
+
+        if(first) first = false;
+        else cout << "-> You can not enter negative score or point." << endl;
+
+        input(score, point);
+        if(score == -1 && point == -1) return false;
+
+    } while(score < 0 || point < 0);
 
     add_node(head, score, point);
 
@@ -176,7 +184,7 @@ signed main() {
 
             cout << "===========================================================\n";
             cout << "course amount: " << course << endl;
-            cout << "totle point: " << point_sum << endl;
+            cout << "total point: " << point_sum << endl;
             cout << "avg: " << score_sum / point_sum << endl;
             cout << "===========================================================\n";
 
