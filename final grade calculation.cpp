@@ -10,8 +10,21 @@ struct Node {
 
 };
 
-bool calResult() {
-    return true;
+void calResult(const int course, const double score_sum, const double point_sum) {
+
+    cout << "===========================================================\n";
+
+    cout << "course amount: " << course << endl;
+    cout << "total point: " << point_sum << endl;
+
+    double avg;
+    if(point_sum == 0) avg = 0;
+    else avg = score_sum / point_sum;
+
+    cout << "avg: " << avg << endl;
+
+    cout << "===========================================================\n";
+
 }
 
 bool travel_node(struct Node *head) {
@@ -182,11 +195,7 @@ signed main() {
 
         } else if(cmd == "status") { // feature seeing grade result
 
-            cout << "===========================================================\n";
-            cout << "course amount: " << course << endl;
-            cout << "total point: " << point_sum << endl;
-            cout << "avg: " << score_sum / point_sum << endl;
-            cout << "===========================================================\n";
+            calResult(course, score_sum, point_sum);
 
         } else if(cmd == "add.") { // feature adding continuosly
 
