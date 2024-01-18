@@ -10,18 +10,32 @@ struct Node {
 
 };
 
-void travel_node(struct Node *head) {
+bool calResult() {
+    return true;
+}
+
+bool travel_node(struct Node *head) {
 
     struct Node *ptr = head->next;
+    bool isEmpty = true;
 
-    cout << "===========================================================\n";
+
     while(ptr) {
+
+        if(isEmpty) {
+            cout << "===========================================================\n";
+            cout << "-> Current grade list: " << endl;
+        }
+        isEmpty = false;
 
         cout << ptr->score << ' ' << ptr->point << endl;
         ptr = ptr->next;
 
     }
-    cout << "===========================================================\n";
+
+    if(!isEmpty) cout << "===========================================================\n";
+
+    return isEmpty;
 }
 
 void add_node(struct Node *head, const double score, const double point) {
@@ -168,22 +182,25 @@ signed main() {
 
         } else if(cmd == "add.") { // feature adding continuosly
 
-            cout << "Keep entering your score and point until enter [-1 -1]: " << endl;
+            cout << "-> Keep entering your score and point until enter [-1 -1]: " << endl;
             while(add(course, score_sum, point_sum, head));
-            cout << "Stop keeping entering." << endl;
+            cout << "-> Stop keeping entering." << endl;
 
         } else if(cmd == "look") { // feature traveling
 
-            travel_node(head);
+            if(travel_node(head)) {
+                cout << "-> Your grade list was empty." << endl;
+            }
+
         } else {
 
-            cout << "cmd not existed..." << endl;
+            cout << "-> cmd not existed." << endl;
         }
 
         cout << "<Enter cmd> ";
     }
 
-    cout << "program finished." << endl;
+    cout << "-> program finished." << endl;
 
     system("pause");
 
