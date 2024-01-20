@@ -10,22 +10,32 @@ struct Node {
 
 };
 
+
 void calResult(const int course, const double score_sum, const double point_sum) {
 
-    cout << "===========================================================\n";
+    if(course > 0) {
 
-    cout << "course amount: " << course << endl;
-    cout << "total point: " << point_sum << endl;
+        cout << "===========================================================\n";
 
-    double avg;
-    if(point_sum == 0) avg = 0;
-    else avg = score_sum / point_sum;
+        cout << "course amount: " << course << endl;
+        cout << "total point: " << point_sum << endl;
 
-    cout << "avg: " << avg << endl;
+        double avg;
+        if(point_sum == 0) avg = 0;
+        else avg = score_sum / point_sum;
 
-    cout << "===========================================================\n";
+        cout << "avg: " << avg << endl;
+
+        cout << "===========================================================\n";
+
+    } else {
+
+        cout << "-> You have not add any grade." << endl;
+
+    }
 
 }
+
 
 bool travel_node(struct Node *head) {
 
@@ -49,7 +59,9 @@ bool travel_node(struct Node *head) {
     if(!isEmpty) cout << "===========================================================\n";
 
     return isEmpty;
+
 }
+
 
 void add_node(struct Node *head, const double score, const double point) {
 
@@ -66,7 +78,9 @@ void add_node(struct Node *head, const double score, const double point) {
     }
 
     head->next = cur;
+
 }
+
 
 bool del_node(struct Node *head, const double score, const double point) {
 
@@ -87,18 +101,23 @@ bool del_node(struct Node *head, const double score, const double point) {
     }
 
     return false;
+
 }
+
 
 void input(double &score, double &point) {
 
     while(!(cin >> score >> point)) {
         cerr << "-> invalid input format" << endl;
+        cout << "<Enter again> ";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
+
 }
 
-bool add(int &course, double &score_sum, double &point_sum, struct Node *head) {
+
+bool append_point(int &course, double &score_sum, double &point_sum, struct Node *head) {
 
     double score, point;
     bool first = true;
@@ -106,12 +125,22 @@ bool add(int &course, double &score_sum, double &point_sum, struct Node *head) {
     do {
 
         if(first) first = false;
-        else cout << "-> You can not enter negative score or point." << endl;
+        else if(score > 100) {
+
+            cout << "-> The score can not higher than 100." << endl;
+            cout << "<Enter again> ";
+
+        } else {
+
+            cout << "-> You can not enter negative score or point." << endl;
+            cout << "<Enter again> ";
+
+        }
 
         input(score, point);
         if(score == -1 && point == -1) return false;
 
-    } while(score < 0 || point < 0);
+    } while(score < 0 || point < 0 || score > 100);
 
     add_node(head, score, point);
 
@@ -120,7 +149,9 @@ bool add(int &course, double &score_sum, double &point_sum, struct Node *head) {
     point_sum += point;
 
     return true;
+
 }
+
 
 void program_init(struct Node *head, double &score_sum, double &point_sum, int &course) {
 
@@ -131,6 +162,7 @@ void program_init(struct Node *head, double &score_sum, double &point_sum, int &
     score_sum = point_sum = course = 0;
 
 }
+
 
 
 signed main() {
@@ -174,7 +206,7 @@ signed main() {
 
         if(cmd == "add") { // feature adding
 
-            add(course, score_sum, point_sum, head);
+            append_point(course, score_sum, point_sum, head);
 
         } else if(cmd == "del") { // feature deleting
 
@@ -200,7 +232,7 @@ signed main() {
         } else if(cmd == "add.") { // feature adding continuosly
 
             cout << "-> Keep entering your score and point until enter [-1 -1]: " << endl;
-            while(add(course, score_sum, point_sum, head));
+            while(append_point(course, score_sum, point_sum, head));
             cout << "-> Stop keeping entering." << endl;
 
         } else if(cmd == "look") { // feature traveling
