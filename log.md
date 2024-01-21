@@ -1,5 +1,9 @@
 # Project log
 
+#### 2024.01.19
+- Chore of make grade calculation become a function
+- Handle some logical mistake
+
 #### 2024.01.17
 - Chore of clear code
 

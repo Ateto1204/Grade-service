@@ -108,10 +108,12 @@ bool del_node(struct Node *head, const double score, const double point) {
 void input(double &score, double &point) {
 
     while(!(cin >> score >> point)) {
+
         cerr << "-> invalid input format" << endl;
         cout << "<Enter again> ";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
     }
 
 }
