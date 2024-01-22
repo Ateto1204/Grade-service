@@ -17,8 +17,6 @@ void calResult(const int course, const double score_sum, const double point_sum)
 
     if(course > 0) {
 
-        cout << "===========================================================\n";
-
         cout << "course amount: " << course << endl;
         cout << "total point: " << point_sum << endl;
 
@@ -27,8 +25,6 @@ void calResult(const int course, const double score_sum, const double point_sum)
         else avg = score_sum / point_sum;
 
         cout << "avg: " << avg << endl;
-
-        cout << "===========================================================\n";
 
     } else {
 
@@ -48,7 +44,6 @@ bool travel_node(struct Node *head) {
     while(ptr) {
 
         if(isEmpty) {
-            cout << "===========================================================\n";
             cout << "-> Current grade list: " << endl;
         }
         isEmpty = false;
@@ -57,8 +52,6 @@ bool travel_node(struct Node *head) {
         ptr = ptr->next;
 
     }
-
-    if(!isEmpty) cout << "===========================================================\n";
 
     return isEmpty;
 
@@ -107,29 +100,39 @@ bool del_node(struct Node *head, const double score, const double point) {
 }
 
 
-void input(double &score, double &point) {
+void input(double &score, double &point, stringstream &ss) {
 
-    while(!(cin >> score >> point)) {
+    string input;
+    bool first = true;
 
-        cerr << "-> invalid input format" << endl;
-        cout << "<Enter again> ";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    do {
+        if(first) first = false;
+        else {
+            cout << "-> Invalid input, enter the score and point again" << endl;
+            cout << "<Enter again> ";
+        }
 
-    }
+        getline(cin, input);
+
+        ss.clear(), ss.str("");
+        ss << input;
+
+    } while(!(ss >> score >> point));
 
 }
 
 
-bool append_point(int &course, double &score_sum, double &point_sum, struct Node *head) {
+bool append_point(int &course, double &score_sum, double &point_sum, struct Node *head, const vector<string> process, stringstream &ss) {
 
     double score, point;
-    bool first = true;
 
-    do {
+    score = stod(process[1]), point = stod(process[2]);
 
-        if(first) first = false;
-        else if(score > 100) {
+    if(score == -1 && point == -1) return false;
+
+    while(score < 0 || point < 0 || score > 100) {
+
+        if(score > 100) {
 
             cout << "-> The score can not higher than 100." << endl;
             cout << "<Enter again> ";
@@ -141,10 +144,8 @@ bool append_point(int &course, double &score_sum, double &point_sum, struct Node
 
         }
 
-        input(score, point);
-        if(score == -1 && point == -1) return false;
-
-    } while(score < 0 || point < 0 || score > 100);
+        input(score, point, ss);
+    }
 
     add_node(head, score, point);
 
@@ -176,7 +177,7 @@ signed main() {
     vector<string> process_tmp;
     double score_sum, score, point_sum, point;
     int course;
-    string cmd;
+    string cmd, tmp;
 
     program_init(head, score_sum, point_sum, course);
 
@@ -206,51 +207,75 @@ signed main() {
     cout << endl;
 
     cout << "<Enter cmd> ";
-    while(cin >> cmd) {
+    while(getline(cin, cmd)) {
 
         if(cmd == "end") break;
 
-        if(cmd == "add") { // feature adding
+        input_ss.clear(), input_ss.str("");
+        input_ss << cmd;
 
-            append_point(course, score_sum, point_sum, head);
+        process_tmp.clear();
+        while(input_ss >> tmp) {
+            process_tmp.push_back(tmp);
+        }
 
-        } else if(cmd == "del") { // feature deleting
+        if(process_tmp.size() >= 1) {
 
-            input(score, point);
+            cmd = process_tmp[0];
 
-            if( del_node(head, score, point) ) {
 
-                cout << "-> delete success." << endl;
+            if(cmd == "add") { // feature adding
 
-                course -= 1;
-                score_sum -= score * point;
-                point_sum -= point;
+                if(process_tmp.size() < 3) {
+                    cout << "-> Invalid input" << endl;
+                    continue;
+                }
+                append_point(course, score_sum, point_sum, head, process_tmp, input_ss);
+
+            } else if(cmd == "del") { // feature deleting
+
+                input(score, point, input_ss);
+
+                if( del_node(head, score, point) ) {
+
+                    cout << "-> delete success." << endl;
+
+                    course -= 1;
+                    score_sum -= score * point;
+                    point_sum -= point;
+
+                } else {
+
+                    cout << "-> data not existed." << endl;
+                }
+
+            } else if(cmd == "status") { // feature seeing grade result
+
+                calResult(course, score_sum, point_sum);
+
+            } else if(cmd == "add.") { // feature adding continuosly
+
+                cout << "-> Keep entering your score and point until enter [-1 -1]: " << endl;
+                while(append_point(course, score_sum, point_sum, head, process_tmp, input_ss));
+                cout << "-> Stop keeping entering." << endl;
+
+            } else if(cmd == "look") { // feature traveling
+
+                if(travel_node(head)) {
+                    cout << "-> Your grade list was empty." << endl;
+                }
 
             } else {
 
-                cout << "-> data not existed." << endl;
-            }
-
-        } else if(cmd == "status") { // feature seeing grade result
-
-            calResult(course, score_sum, point_sum);
-
-        } else if(cmd == "add.") { // feature adding continuosly
-
-            cout << "-> Keep entering your score and point until enter [-1 -1]: " << endl;
-            while(append_point(course, score_sum, point_sum, head));
-            cout << "-> Stop keeping entering." << endl;
-
-        } else if(cmd == "look") { // feature traveling
-
-            if(travel_node(head)) {
-                cout << "-> Your grade list was empty." << endl;
+                cout << "-> cmd not existed." << endl;
             }
 
         } else {
 
-            cout << "-> cmd not existed." << endl;
+            cout << "-> Occur some error" << endl;
         }
+
+
 
         cout << "<Enter cmd> ";
     }
