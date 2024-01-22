@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include <limits>
 using namespace std;
 
@@ -171,7 +172,8 @@ void program_init(struct Node *head, double &score_sum, double &point_sum, int &
 signed main() {
 
     struct Node *head = new Node;
-    stringstream ss;
+    stringstream input_ss;
+    vector<string> process_tmp;
     double score_sum, score, point_sum, point;
     int course;
     string cmd;
