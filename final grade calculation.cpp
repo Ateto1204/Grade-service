@@ -12,11 +12,9 @@ struct Node {
 };
 
 
-void calResult(const int course, const double score_sum, const double point_sum) {
+bool calResult(const int course, const double score_sum, const double point_sum) {
 
     if(course > 0) {
-
-        cout << "===========================================================\n";
 
         cout << "course amount: " << course << endl;
         cout << "total point: " << point_sum << endl;
@@ -27,14 +25,11 @@ void calResult(const int course, const double score_sum, const double point_sum)
 
         cout << "avg: " << avg << endl;
 
-        cout << "===========================================================\n";
-
-    } else {
-
-        cout << "-> You have not add any grade." << endl;
+        return true;
 
     }
 
+    return false;
 }
 
 
@@ -47,7 +42,6 @@ bool travel_node(struct Node *head) {
     while(ptr) {
 
         if(isEmpty) {
-            cout << "===========================================================\n";
             cout << "-> Current grade list: " << endl;
         }
         isEmpty = false;
@@ -56,8 +50,6 @@ bool travel_node(struct Node *head) {
         ptr = ptr->next;
 
     }
-
-    if(!isEmpty) cout << "===========================================================\n";
 
     return isEmpty;
 
@@ -106,54 +98,30 @@ bool del_node(struct Node *head, const double score, const double point) {
 }
 
 
-void input(double &score, double &point) {
+bool input(double &score, double &point, stringstream &ss) {
 
-    while(!(cin >> score >> point)) {
-
-        cerr << "-> invalid input format" << endl;
-        cout << "<Enter again> ";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    }
-
-}
-
-
-bool append_point(int &course, double &score_sum, double &point_sum, struct Node *head) {
-
-    double score, point;
+    string input;
     bool first = true;
 
     do {
-
         if(first) first = false;
-        else if(score > 100) {
-
-            cout << "-> The score can not higher than 100." << endl;
+        else {
+            cout << "-> Invalid input, enter the score and point again" << endl;
             cout << "<Enter again> ";
-
-        } else {
-
-            cout << "-> You can not enter negative score or point." << endl;
-            cout << "<Enter again> ";
-
         }
 
-        input(score, point);
-        if(score == -1 && point == -1) return false;
+        getline(cin, input);
 
-    } while(score < 0 || point < 0 || score > 100);
+        if(input == "q") return false;
 
-    add_node(head, score, point);
+        ss.clear(), ss.str("");
+        ss << input;
 
-    course += 1;
-    score_sum += score * point;
-    point_sum += point;
+    } while(!(ss >> score >> point));
 
     return true;
-
 }
+
 
 
 void program_init(struct Node *head, double &score_sum, double &point_sum, int &course) {
@@ -171,10 +139,14 @@ void program_init(struct Node *head, double &score_sum, double &point_sum, int &
 signed main() {
 
     struct Node *head = new Node;
-    stringstream ss;
+
+    stringstream input_ss;
+    string cmd_tmp, cmd, tmp;
+
     double score_sum, score, point_sum, point;
     int course;
-    string cmd;
+
+
 
     program_init(head, score_sum, point_sum, course);
 
@@ -204,56 +176,116 @@ signed main() {
     cout << endl;
 
     cout << "<Enter cmd> ";
-    while(cin >> cmd) {
+    while(getline(cin, cmd_tmp)) {
 
-        if(cmd == "end") break;
+        if(cmd_tmp == "end") break;
 
-        if(cmd == "add") { // feature adding
+        input_ss.clear(), input_ss.str("");
+        input_ss << cmd_tmp;
 
-            append_point(course, score_sum, point_sum, head);
+        if(input_ss >> cmd) {
 
-        } else if(cmd == "del") { // feature deleting
 
-            input(score, point);
+            if(cmd == "add." || cmd_tmp == "add .") { // feature adding continuosly
 
-            if( del_node(head, score, point) ) {
+                cout << "-> Keep entering your score and point until enter 'q': " << endl;
+                while(input(score, point, input_ss)) {
 
-                cout << "-> delete success." << endl;
+                    if(score >= 0 && point >= 0 && score <= 100) {
 
-                course -= 1;
-                score_sum -= score * point;
-                point_sum -= point;
+                        add_node(head, score, point);
 
-            } else {
+                        course += 1;
+                        score_sum += score * point;
+                        point_sum += point;
 
-                cout << "-> data not existed." << endl;
+                    } else if(score > 100) {
+
+                        cout << "-> The score can not higher than 100." << endl;
+                    } else  {
+
+                        cout << "-> You can not enter negative score or point." << endl;
+                    }
+
+                }
+                cout << "-> Stop keeping entering." << endl;
+
+            } else if(cmd == "add") {
+
+                if(!(input_ss >> score >> point) || score < 0 || point < 0 || score > 100) {
+
+                    do {
+
+                        cout << "-> Add fail" << endl;
+                        cout << "<Enter new score and point> ";
+                        if(!input(score, point, input_ss)) {
+
+                            cout << "-> Quit the command" << endl;
+                            break;
+                        }
+
+                    } while(score < 0 || point < 0 || score > 100);
+                }
+
+                add_node(head, score, point);
+
+                course += 1;
+                score_sum += score * point;
+                point_sum += point;
+
+            } else if(cmd == "status") {
+
+                if(!calResult(course, score_sum, point_sum)) {
+
+                    cout << "-> You have not add any grade." << endl;
+                }
+
+            } else if(cmd == "del") {
+
+                if(!(input_ss >> score >> point)) {
+
+                    cout << "-> Delete fail" << endl;
+                    cout << "<Enter new score and point> ";
+
+                    if(!input(score, point, input_ss)) {
+
+                        cout << "-> Quit the command" << endl;
+                        break;
+                    }
+
+                }
+
+                if(del_node(head, score, point)) {
+
+                    cout << "-> Delete success." << endl;
+
+                    course -= 1;
+                    score_sum -= score * point;
+                    point_sum -= point;
+
+                } else {
+
+                    cout << "-> The data not existed." << endl;
+                }
+
+            } else if(cmd == "look") {
+
+                if(travel_node(head)) {
+                    cout << "-> Your grade list was empty." << endl;
+                }
+
             }
-
-        } else if(cmd == "status") { // feature seeing grade result
-
-            calResult(course, score_sum, point_sum);
-
-        } else if(cmd == "add.") { // feature adding continuosly
-
-            cout << "-> Keep entering your score and point until enter [-1 -1]: " << endl;
-            while(append_point(course, score_sum, point_sum, head));
-            cout << "-> Stop keeping entering." << endl;
-
-        } else if(cmd == "look") { // feature traveling
-
-            if(travel_node(head)) {
-                cout << "-> Your grade list was empty." << endl;
-            }
-
-        } else {
-
-            cout << "-> cmd not existed." << endl;
         }
 
         cout << "<Enter cmd> ";
     }
 
     cout << "-> program finished." << endl;
+
+    if(!calResult(course, score_sum, point_sum)) {
+
+        cout << "-> You have not add any grade." << endl;
+    }
 
     system("pause");
 
