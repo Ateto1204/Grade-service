@@ -171,7 +171,7 @@ signed main() {
     cout << "[end] to stop program." << endl;
 
     cout << endl;
-    cout << "p.s. score->¤À¼Æ; point->¾Ç¤À¼Æ" << endl;
+//    cout << "p.s. score->åˆ†æ•¸; point->å­¸åˆ†" << endl;
     cout << "===========================================================\n";
     cout << endl;
 
@@ -181,10 +181,15 @@ signed main() {
         if(cmd_tmp == "end") break;
 
         input_ss.clear(), input_ss.str("");
+
+        for(int i=0; i < cmd_tmp.size(); i++) {
+
+            if(cmd_tmp[i] >= 'A' && cmd_tmp[i] <= 'Z') cmd_tmp[i] += 'a' - 'A';
+        }
+
         input_ss << cmd_tmp;
 
         if(input_ss >> cmd) {
-
 
             if(cmd == "add." || cmd_tmp == "add .") { // feature adding continuosly
 
@@ -237,7 +242,7 @@ signed main() {
 
                 if(!calResult(course, score_sum, point_sum)) {
 
-                    cout << "-> You have not add any grade." << endl;
+                    cout << "-> No any grade to display" << endl;
                 }
 
             } else if(cmd == "del") {
@@ -250,14 +255,14 @@ signed main() {
                     if(!input(score, point, input_ss)) {
 
                         cout << "-> Quit the command" << endl;
-                        break;
+                        continue;
                     }
 
                 }
 
                 if(del_node(head, score, point)) {
 
-                    cout << "-> Delete success." << endl;
+                    cout << "-> Delete data success" << endl;
 
                     course -= 1;
                     score_sum -= score * point;
@@ -265,26 +270,29 @@ signed main() {
 
                 } else {
 
-                    cout << "-> The data not existed." << endl;
+                    cout << "-> Data not existed" << endl;
                 }
 
             } else if(cmd == "look") {
 
                 if(travel_node(head)) {
-                    cout << "-> Your grade list was empty." << endl;
+                    cout << "-> Grade list was empty" << endl;
                 }
 
+            } else {
+
+                cout << "-> Command does not existed" << endl;
             }
         }
 
         cout << "<Enter cmd> ";
     }
 
-    cout << "-> program finished." << endl;
+    cout << "-> Program finished" << endl;
 
     if(!calResult(course, score_sum, point_sum)) {
 
-        cout << "-> You have not add any grade." << endl;
+        cout << "-> No any grade to display" << endl;
     }
 
     system("pause");
