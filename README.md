@@ -8,7 +8,7 @@ The project to calculate final grade of a semester.
   <img src="initial.png" alt="Image" style="width:600px;">
 </div>
 
-## Commend explanation
+## Commend Explanation
 
 score：分數／point：學分
 
