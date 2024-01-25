@@ -5,13 +5,12 @@ The project to calculate final grade of a semester.
 ## Initial Screen
 
 <div style="text-align:center;">
-  <img src="initial.png" alt="Image" style="width:400px; height:200px;">
+  <img src="initial.png" alt="Image" style="max-width:75%; height:auto;">
 </div>
-
 
 ## Commend explanation
 
-score：分數； point：學分
+score：分數／point：學分
 
 - `add (score) (point)` to add new element.
 - `add.` to keep enter `(score) (point)` until enter `q`.
