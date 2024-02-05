@@ -13,5 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with: ./
     - name: compile
       run: g++ "final grade calculation" -o "final grade calculation.exe"
