@@ -14,4 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: compile
-      run: g++ "final grade calculation.cpp" -o "final grade calculation.exe"
+      run: | 
+        g++ "final grade calculation.cpp" -o "final grade calculation.exe"
+        echo "compile success"
