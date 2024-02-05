@@ -1,9 +1,12 @@
 # Project log
 
-#### 2023.01.23
+#### 2024.02.05
+- Create GitHub Action
+
+#### 2024.01.23
 - Success using getline to process user input
 
-#### 2023.01.22
+#### 2024.01.22
 - Create a branch for develop new method of process user input and have a pratical of pull request
 - Attempt using getline to process input
 
