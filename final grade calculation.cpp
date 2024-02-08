@@ -134,7 +134,33 @@ void program_init(struct Node *head, double &score_sum, double &point_sum, int &
 
 }
 
+class Grade {
 
+private:
+
+    struct Node *head = new Node;
+
+public:
+
+    void add_node(const double score, const double point) {
+
+        struct Node *cur = new Node;
+        cur->score = score;
+        cur->point = point;
+        cur->next = NULL;
+
+        if(head->next) {
+
+            struct Node *pre = head->next;
+            cur->next = pre;
+
+        }
+
+        head->next = cur;
+
+    }
+
+};
 
 signed main() {
 
