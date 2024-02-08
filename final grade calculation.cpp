@@ -138,9 +138,63 @@ class Grade {
 
 private:
 
-    struct Node *head = new Node;
+    struct Node *head;
+    int course;
+    int point_sum;
+    double score_sum;
 
 public:
+
+    Grade() {
+
+        head = new Node;
+        course = 0;
+        score_sum = 0;
+        point_sum = 0;
+
+    }
+
+    bool travel_node() {
+
+        struct Node *ptr = head->next;
+        bool isEmpty = true;
+
+
+        while(ptr) {
+
+            if(isEmpty) {
+                cout << "-> Current grade list: " << endl;
+            }
+            isEmpty = false;
+
+            cout << ptr->score << ' ' << ptr->point << endl;
+            ptr = ptr->next;
+
+        }
+
+        return isEmpty;
+
+    }
+
+    bool getAvg() {
+
+        if(course > 0) {
+
+            cout << "course amount: " << course << endl;
+            cout << "total point: " << point_sum << endl;
+
+            double avg;
+            if(point_sum == 0) avg = 0;
+            else avg = score_sum / point_sum;
+
+            cout << "avg: " << avg << endl;
+
+            return true;
+
+        }
+
+        return false;
+    }
 
     void add_node(const double score, const double point) {
 
@@ -160,11 +214,49 @@ public:
 
     }
 
+    bool del_node(const double score, const double point) {
+
+        struct Node *ptr, *pre;
+        ptr = head->next;
+        pre = head;
+
+        while(ptr) {
+
+            if(ptr->score == score && ptr->point == point) {
+
+                pre->next = ptr->next;
+                return true;
+            }
+
+            pre = ptr;
+            ptr = ptr->next;
+        }
+
+        return false;
+
+    }
+
+    void modifyCourse(int val) {
+        course += val;
+
+    }
+
+    void modifyScore(double val) {
+        score_sum += val;
+
+    }
+
+    void modifyPoint(int val) {
+        point_sum += val;
+    }
+
 };
 
 signed main() {
 
     struct Node *head = new Node;
+    Grade grade;
+
 
     stringstream input_ss;
     string cmd_tmp, cmd, tmp;
