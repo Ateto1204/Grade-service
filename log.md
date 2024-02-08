@@ -1,5 +1,8 @@
 # Project log
 
+#### 2024.02.08
+- Wrap resource into class
+
 #### 2024.02.05
 - Create GitHub Action
 
