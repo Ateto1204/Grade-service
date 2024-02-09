@@ -1,5 +1,8 @@
 # Project log
 
+#### 2024.02.09
+- Wrap and clean resource code
+
 #### 2024.02.08
 - Wrap resource into class
 
