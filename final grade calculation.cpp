@@ -151,8 +151,8 @@ void initIntro() {
     cout << "[add (score) (point)] to add new element." << endl;
     cout << "[add.] to keep enter [(score) (point)] until enter 'q'." << endl;
     cout << "[del (score) (point)] to delete existed element." << endl;
-    cout << "[status] to check current grade." << endl;
-    cout << "[look] to check grade list." << endl;
+    cout << "[cal] to check current grade." << endl;
+    cout << "[log] to check grade list." << endl;
     cout << "[end] to stop program." << endl;
 
     cout << endl;
