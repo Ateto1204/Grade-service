@@ -4,55 +4,16 @@
 using namespace std;
 
 
-struct Node {
+class Grade {
+
+private:
+
+    struct Node {
 
     double score, point;
     struct Node *next;
 
-};
-
-
-
-
-bool input(double &score, int &point, stringstream &ss) {
-
-    string input;
-    bool first = true;
-
-    do {
-        if(first) first = false;
-        else {
-            cout << "-> Invalid input, enter the score and point again" << endl;
-            cout << "<Enter again> ";
-        }
-
-        getline(cin, input);
-
-        if(input == "q") return false;
-
-        ss.clear(), ss.str("");
-        ss << input;
-
-    } while(!(ss >> score >> point));
-
-    return true;
-}
-
-
-
-void program_init(struct Node *head, double &score_sum, double &point_sum, int &course) {
-
-    head->score = -1;
-    head->point = -1;
-    head->next = NULL;
-
-    score_sum = point_sum = course = 0;
-
-}
-
-class Grade {
-
-private:
+    };
 
     struct Node *head;
     int course;
@@ -173,18 +134,7 @@ public:
 
 };
 
-signed main() {
-
-    Grade grade;
-
-
-    stringstream input_ss;
-    string cmd_tmp, cmd, tmp;
-
-    double score;
-    int point;
-
-
+void initIntro() {
     cout << "~Final Grade Cal~" << endl;
     cout << endl;
 
@@ -209,6 +159,45 @@ signed main() {
     cout << "p.s. score->分數; point->學分" << endl;
     cout << "===========================================================\n";
     cout << endl;
+}
+
+
+bool input(double &score, int &point, stringstream &ss) {
+
+    string input;
+    bool first = true;
+
+    do {
+        if(first) first = false;
+        else {
+            cout << "-> Invalid input, enter the score and point again" << endl;
+            cout << "<Enter again> ";
+        }
+
+        getline(cin, input);
+
+        if(input == "q") return false;
+
+        ss.clear(), ss.str("");
+        ss << input;
+
+    } while(!(ss >> score >> point));
+
+    return true;
+}
+
+
+signed main() {
+
+    Grade grade;
+
+    stringstream input_ss;
+    string cmd_tmp, cmd, tmp;
+
+    double score;
+    int point;
+
+    initIntro();
 
     cout << "<Enter cmd> ";
     while(getline(cin, cmd_tmp)) {
@@ -273,7 +262,7 @@ signed main() {
                 grade.modifyScore(score * point);
                 grade.modifyPoint(point);
 
-            } else if(cmd == "status") {
+            } else if(cmd == "cal") {
 
                 if( !grade.getAvg() ) {
 
@@ -308,7 +297,7 @@ signed main() {
                     cout << "-> Data not existed" << endl;
                 }
 
-            } else if(cmd == "look") {
+            } else if(cmd == "log") {
 
                 if( grade.travel_node() ) {
                     cout << "-> Grade list was empty" << endl;
