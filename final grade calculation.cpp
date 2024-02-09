@@ -258,7 +258,7 @@ signed main() {
                 grade.modifyScore(score * point);
                 grade.modifyPoint(point);
 
-            } else if(cmd == "status") {
+            } else if(cmd == "cal") {
 
                 if( !grade.getAvg() ) {
 
@@ -293,7 +293,7 @@ signed main() {
                     cout << "-> Data not existed" << endl;
                 }
 
-            } else if(cmd == "look") {
+            } else if(cmd == "log") {
 
                 if( grade.travel_node() ) {
                     cout << "-> Grade list was empty" << endl;
