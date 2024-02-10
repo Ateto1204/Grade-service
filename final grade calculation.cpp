@@ -1,3 +1,8 @@
+/*
+* 
+* @author Ateto
+*/
+
 #include <iostream>
 #include <sstream>
 #include <limits>
