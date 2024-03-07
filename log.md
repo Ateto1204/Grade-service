@@ -1,5 +1,8 @@
 # Project log
 
+#### 2024.03.07
+- Make Grade class be singleton
+
 #### 2024.02.09
 - Wrap and clean resource code
 
