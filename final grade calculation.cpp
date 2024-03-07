@@ -1,12 +1,11 @@
 /*
-* 
+*
 * @author Ateto
 */
 
 #include <iostream>
 #include <sstream>
 #include <limits>
-using namespace std;
 
 
 class Grade {
@@ -27,7 +26,7 @@ private:
 
     Grade() {
         head = new Node();
-        
+
         head->score = -1;
         head->point = -1;
         head->next = nullptr;
@@ -53,11 +52,11 @@ public:
         while(ptr) {
 
             if(isEmpty) {
-                cout << "-> Current grade list: " << endl;
+                std::cout << "-> Current grade list: " << std::endl;
             }
             isEmpty = false;
 
-            cout << ptr->score << ' ' << ptr->point << endl;
+            std::cout << ptr->score << ' ' << ptr->point << std::endl;
             ptr = ptr->next;
 
         }
@@ -70,14 +69,14 @@ public:
 
         if(course > 0) {
 
-            cout << "course amount: " << course << endl;
-            cout << "total point: " << pointSum << endl;
+            std::cout << "course amount: " << course << std::endl;
+            std::cout << "total point: " << pointSum << std::endl;
 
             double avg;
             if(pointSum == 0) avg = 0;
             else avg = scoreSum / pointSum;
 
-            cout << "avg: " << avg << endl;
+            std::cout << "avg: " << avg << std::endl;
 
             return true;
 
@@ -143,6 +142,8 @@ public:
 };
 
 void initIntro() {
+
+    using namespace std;
     cout << "~Final Grade Cal~" << endl;
     cout << endl;
 
@@ -170,19 +171,19 @@ void initIntro() {
 }
 
 
-bool input(double &score, int &point, stringstream &ss) {
+bool input(double &score, int &point, std::stringstream &ss) {
 
-    string input;
+    std::string input;
     bool first = true;
 
     do {
         if(first) first = false;
         else {
-            cout << "-> Invalid input, enter the score and point again" << endl;
-            cout << "<Enter again> ";
+            std::cout << "-> Invalid input, enter the score and point again" << std::endl;
+            std::cout << "<Enter again> ";
         }
 
-        getline(cin, input);
+        getline(std::cin, input);
 
         if(input == "q") return false;
 
@@ -199,16 +200,16 @@ signed main() {
 
     Grade& grade = Grade::getGradeInstance();
 
-    stringstream input_ss;
-    string cmd_tmp, cmd, tmp;
+    std::stringstream input_ss;
+    std::string cmd_tmp, cmd, tmp;
 
     double score;
     int point;
 
     initIntro();
 
-    cout << "<Enter cmd> ";
-    while(getline(cin, cmd_tmp)) {
+    std::cout << "<Enter cmd> ";
+    while(getline(std::cin, cmd_tmp)) {
 
         if(cmd_tmp == "end") break;
 
@@ -225,7 +226,7 @@ signed main() {
 
             if(cmd == "add." || cmd_tmp == "add .") { // feature adding continuosly
 
-                cout << "-> Keep entering your score and point until enter 'q': " << endl;
+                std::cout << "-> Keep entering your score and point until enter 'q': " << std::endl;
                 while(input(score, point, input_ss)) {
 
                     if(score >= 0 && point >= 0 && score <= 100) {
@@ -238,14 +239,14 @@ signed main() {
 
                     } else if(score > 100) {
 
-                        cout << "-> The score can not higher than 100." << endl;
+                        std::cout << "-> The score can not higher than 100." << std::endl;
                     } else  {
 
-                        cout << "-> You can not enter negative score or point." << endl;
+                        std::cout << "-> You can not enter negative score or point." << std::endl;
                     }
 
                 }
-                cout << "-> Stop keeping entering." << endl;
+                std::cout << "-> Stop keeping entering." << std::endl;
 
             } else if(cmd == "add") {
 
@@ -253,11 +254,11 @@ signed main() {
 
                     do {
 
-                        cout << "-> Add fail" << endl;
-                        cout << "<Enter new score and point> ";
+                        std::cout << "-> Add fail" << std::endl;
+                        std::cout << "<Enter new score and point> ";
                         if(!input(score, point, input_ss)) {
 
-                            cout << "-> Quit the command" << endl;
+                            std::cout << "-> Quit the command" << std::endl;
                             break;
                         }
 
@@ -274,19 +275,19 @@ signed main() {
 
                 if( !grade.getAvg() ) {
 
-                    cout << "-> No any grade to display" << endl;
+                    std::cout << "-> No any grade to display" << std::endl;
                 }
 
             } else if(cmd == "del") {
 
                 if(!(input_ss >> score >> point)) {
 
-                    cout << "-> Delete fail" << endl;
-                    cout << "<Enter new score and point> ";
+                    std::cout << "-> Delete fail" << std::endl;
+                    std::cout << "<Enter new score and point> ";
 
                     if(!input(score, point, input_ss)) {
 
-                        cout << "-> Quit the command" << endl;
+                        std::cout << "-> Quit the command" << std::endl;
                         continue;
                     }
 
@@ -294,7 +295,7 @@ signed main() {
 
                 if( grade.del_node(score, point) ) {
 
-                    cout << "-> Delete data success" << endl;
+                    std::cout << "-> Delete data success" << std::endl;
 
                     grade.modifyCourse(-1);
                     grade.modifyScore( -score * point);
@@ -302,30 +303,30 @@ signed main() {
 
                 } else {
 
-                    cout << "-> Data not existed" << endl;
+                    std::cout << "-> Data not existed" << std::endl;
                 }
 
             } else if(cmd == "log") {
 
                 if( grade.travel_node() ) {
-                    cout << "-> Grade list was empty" << endl;
+                    std::cout << "-> Grade list was empty" << std::endl;
 
                 }
 
             } else {
 
-                cout << "-> Command does not existed" << endl;
+                std::cout << "-> Command does not existed" << std::endl;
             }
         }
 
-        cout << "<Enter cmd> ";
+        std::cout << "<Enter cmd> ";
     }
 
-    cout << "-> Program finished" << endl;
+    std::cout << "-> Program finished" << std::endl;
 
 
     if( !grade.getAvg() ) {
-        cout << "-> No any grade to display" << endl;
+        std::cout << "-> No any grade to display" << std::endl;
 
     }
 

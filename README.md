@@ -5,7 +5,7 @@ The project to calculate final grade of a semester.
 ## Initial Screen
 
 <div style="text-align:center;">
-  <img src="initial.png" alt="Image" style="width:600px;">
+  <img src="image.png" alt="Image" style="width:600px;">
 </div>
 
 ## Commend Explanation
