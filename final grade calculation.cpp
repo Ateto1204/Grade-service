@@ -22,23 +22,26 @@ private:
 
     struct Node *head;
     int course;
-    int point_sum;
-    double score_sum;
+    int pointSum;
+    double scoreSum;
+
+    Grade() {
+        head = new Node();
+        
+        head->score = -1;
+        head->point = -1;
+        head->next = nullptr;
+
+        course = 0;
+        scoreSum = 0;
+        pointSum = 0;
+    }
 
 public:
 
-    Grade() {
-
-        head = new Node;
-
-        head->score = -1;
-        head->point = -1;
-        head->next = NULL;
-
-        course = 0;
-        score_sum = 0;
-        point_sum = 0;
-
+    static Grade& getGradeInstance() {
+        static Grade grade;
+        return grade;
     }
 
     bool travel_node() {
@@ -68,11 +71,11 @@ public:
         if(course > 0) {
 
             cout << "course amount: " << course << endl;
-            cout << "total point: " << point_sum << endl;
+            cout << "total point: " << pointSum << endl;
 
             double avg;
-            if(point_sum == 0) avg = 0;
-            else avg = score_sum / point_sum;
+            if(pointSum == 0) avg = 0;
+            else avg = scoreSum / pointSum;
 
             cout << "avg: " << avg << endl;
 
@@ -129,12 +132,12 @@ public:
     }
 
     void modifyScore(double val) {
-        score_sum += val;
+        scoreSum += val;
 
     }
 
     void modifyPoint(int val) {
-        point_sum += val;
+        pointSum += val;
     }
 
 };
@@ -194,7 +197,7 @@ bool input(double &score, int &point, stringstream &ss) {
 
 signed main() {
 
-    Grade grade;
+    Grade& grade = Grade::getGradeInstance();
 
     stringstream input_ss;
     string cmd_tmp, cmd, tmp;
