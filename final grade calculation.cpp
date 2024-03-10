@@ -12,20 +12,20 @@ class Grade {
 
 private:
 
-    struct Node {
+    struct ListNode {
 
     double score, point;
-    struct Node *next;
+    struct ListNode *next;
 
     };
 
-    struct Node *head;
+    struct ListNode *head;
     int course;
     int pointSum;
     double scoreSum;
 
     Grade() {
-        head = new Node();
+        head = new ListNode();
 
         head->score = -1;
         head->point = -1;
@@ -43,9 +43,9 @@ public:
         return grade;
     }
 
-    bool travel_node() {
+    bool travelNode() {
 
-        struct Node *ptr = head->next;
+        struct ListNode *ptr = head->next;
         bool isEmpty = true;
 
 
@@ -85,40 +85,34 @@ public:
         return false;
     }
 
-    void add_node(const double score, const double point) {
+    void addNode(const double score, const double point) {
 
-        struct Node *cur = new Node;
-        cur->score = score;
-        cur->point = point;
-        cur->next = NULL;
+        struct ListNode* node = new ListNode;
+        node->score = score;
+        node->point = point;
+        node->next = NULL;
 
-        if(head->next) {
-
-            struct Node *pre = head->next;
-            cur->next = pre;
-
+        struct ListNode* dummy = head;
+        while(dummy->next != NULL) {
+            dummy = dummy->next;
         }
 
-        head->next = cur;
+        dummy->next = node;
 
     }
 
-    bool del_node(const double score, const double point) {
+    bool delNode(const double score, const double point) {
 
-        struct Node *ptr, *pre;
-        ptr = head->next;
-        pre = head;
+        struct ListNode* dummy = head;
 
-        while(ptr) {
+        while(dummy->next != NULL) {
 
-            if(ptr->score == score && ptr->point == point) {
-
-                pre->next = ptr->next;
+            if(dummy->next->score == score && dummy->next->point == point) {
+                dummy->next = dummy->next->next;
                 return true;
             }
 
-            pre = ptr;
-            ptr = ptr->next;
+            dummy = dummy->next;
         }
 
         return false;
@@ -231,7 +225,7 @@ signed main() {
 
                     if(score >= 0 && point >= 0 && score <= 100) {
 
-                        grade.add_node(score, point);
+                        grade.addNode(score, point);
 
                         grade.modifyCourse(1);
                         grade.modifyScore(score * point);
@@ -265,7 +259,7 @@ signed main() {
                     } while(score < 0 || point < 0 || score > 100);
                 }
 
-                grade.add_node(score, point);
+                grade.addNode(score, point);
 
                 grade.modifyCourse(1);
                 grade.modifyScore(score * point);
@@ -293,7 +287,7 @@ signed main() {
 
                 }
 
-                if( grade.del_node(score, point) ) {
+                if( grade.delNode(score, point) ) {
 
                     std::cout << "-> Delete data success" << std::endl;
 
@@ -308,7 +302,7 @@ signed main() {
 
             } else if(cmd == "log") {
 
-                if( grade.travel_node() ) {
+                if( grade.travelNode() ) {
                     std::cout << "-> Grade list was empty" << std::endl;
 
                 }
